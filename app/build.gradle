@@ -1,0 +1,29 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '22.0.0'
+    defaultConfig {
+        applicationId "me.gujun.mybook"
+        minSdkVersion 11
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+        testApplicationId 'me.gujun.mybook.test'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+}
