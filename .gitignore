@@ -15,6 +15,9 @@
 bin/
 gen/
 
+# Log files
+captures/
+
 # Local configuration file (sdk path, etc)
 local.properties
 
