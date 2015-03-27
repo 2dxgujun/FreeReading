@@ -1,18 +1,29 @@
 package me.gujun.mybook.ui;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SimpleCursorAdapter;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.gujun.mybook.R;
-import me.gujun.mybook.db.BookshelfTable;
+import me.gujun.mybook.db.model.Book;
+import me.gujun.mybook.db.table.BookshelfTable;
 import me.gujun.mybook.ui.view.BookshelfGridView;
+import me.gujun.mybook.util.BookManager;
 
 /**
  * Bookshelf activity.
@@ -23,8 +34,11 @@ import me.gujun.mybook.ui.view.BookshelfGridView;
  */
 public class MainActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private BookshelfGridView mBookshelfGridView;
+    private LinearLayout mBookstoreReminderView;
 
-    private SimpleCursorAdapter mCursorAdapter;
+    private AlertDialog mDeleteDialog;
+
+    private int mPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +46,54 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         mBookshelfGridView = (BookshelfGridView) findViewById(R.id.bookshelf);
+        mBookshelfGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Book book = mBookshelfGridView.getBook(position);
+                openReadingActivity(book);
+            }
+        });
+
+        mBookshelfGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mPosition = position;
+                mDeleteDialog.show();
+                return true;
+            }
+        });
+
+        mBookstoreReminderView = (LinearLayout) findViewById(R.id.bookstore_reminder);
+        mBookstoreReminderView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openBookstoreActivity();
+            }
+        });
+
+        mDeleteDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.delete_book_hint)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Book book = mBookshelfGridView.getBook(mPosition);
+                        try {
+                            BookManager.get(getApplicationContext()).deleteBook(book);
+                            Toast.makeText(MainActivity.this, R.string.delete_success, Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(MainActivity.this, R.string.delete_failure, Toast.LENGTH_LONG).show();
+                        }
+
+                        getLoaderManager().restartLoader(0, null, MainActivity.this);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
 
         getLoaderManager().initLoader(0, null, this);
     }
@@ -44,7 +106,40 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_browser) {
+            openFileBrowserActivity();
+        } else if (id == R.id.action_bookstore) {
+            openBookstoreActivity();
+            return true;
+        } else if (id == R.id.action_bookmark) {
+            openBookmarkActivity();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openReadingActivity(Book book) {
+        Intent intent = ReadingActivity.createIntent(book);
+        intent.setClass(MainActivity.this, ReadingActivity.class);
+        startActivity(intent);
+    }
+
+    private void openFileBrowserActivity() {
+        Intent intent = new Intent(MainActivity.this, FileBrowserActivity.class);
+        startActivity(intent);
+    }
+
+    private void openBookstoreActivity() {
+        Intent intent = new Intent(MainActivity.this, BookstoreActivity.class);
+        startActivity(intent);
+    }
+
+    private void openBookmarkActivity() {
+        Intent intent = new Intent(MainActivity.this, BookmarkActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -57,11 +152,17 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mCursorAdapter.swapCursor(data);
+        List<Book> mBookList = new ArrayList<>();
+        while (data.moveToNext()) {
+            mBookList.add(Book.resolve(data));
+        }
+
+        mBookstoreReminderView.setVisibility(mBookList.isEmpty() ? View.VISIBLE : View.GONE);
+        mBookshelfGridView.setBookList(mBookList);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mCursorAdapter.swapCursor(null);
+        mBookshelfGridView.setBookList(null);
     }
 }

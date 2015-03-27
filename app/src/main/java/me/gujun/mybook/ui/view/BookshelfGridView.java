@@ -5,16 +5,17 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
-import me.gujun.mybook.DisplayImageOptionsProvider;
 import me.gujun.mybook.R;
 import me.gujun.mybook.SingleTypeAdapter;
-import me.gujun.mybook.api.entity.Book;
+import me.gujun.mybook.db.model.Book;
+import me.gujun.mybook.util.DisplayImageOptionsProvider;
 
 /**
  * Custom view for display books.
@@ -24,7 +25,7 @@ import me.gujun.mybook.api.entity.Book;
  * @since 2015-3-17 8:24:01
  */
 public class BookshelfGridView extends GridView {
-    private BookshelfGridAdapter mBookshelfGridAdapter;
+    private BookshelfGridAdapter mAdapter;
 
     public BookshelfGridView(Context context) {
         super(context, null);
@@ -32,46 +33,70 @@ public class BookshelfGridView extends GridView {
 
     public BookshelfGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setVerticalSpacing(6);
-        setHorizontalSpacing(6);
-        setNumColumns(3);
+        mAdapter = new BookshelfGridAdapter(getContext(),
+                R.layout.bookshelf_grid_item);
 
-        mBookshelfGridAdapter = new BookshelfGridAdapter(context, R.layout.bookshelf_grid_item);
-        setAdapter(mBookshelfGridAdapter);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                int cellWidth = getWidth() / 3;
+                mAdapter.setCellWidth(cellWidth);
+                setAdapter(mAdapter);
+            }
+        });
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
+                MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, expandSpec);
+    }
+
+    public Book getBook(int position) {
+        return mAdapter.getItem(position);
     }
 
     public void setBookList(List<Book> bookList) {
-        mBookshelfGridAdapter.setItems(bookList);
+        mAdapter.setItems(bookList);
     }
 
     /**
      * Bookshelf grid adapter.
      */
     private class BookshelfGridAdapter extends SingleTypeAdapter<Book> {
+        private int mCellWidth;
+
         public BookshelfGridAdapter(Context context, int layoutResid) {
             super(context, layoutResid);
         }
 
+        public void setCellWidth(int cellWidth) {
+            this.mCellWidth = cellWidth;
+        }
+
         @Override
         protected ViewHolder onCreateViewHolder(View convertView) {
-            BookshelfGridItemViewHolder holder = new BookshelfGridItemViewHolder();
-            holder.bookCoverImg = (ImageView) convertView.findViewById(R.id.iv_book_cover);
-            holder.bookTitleTxt = (TextView) convertView.findViewById(R.id.tv_book_title);
+            ItemViewHolder holder = new ItemViewHolder();
+            holder.coverImg = (ImageView) convertView.findViewById(R.id.iv_cover);
+            holder.titleTxt = (TextView) convertView.findViewById(R.id.tv_title);
+
+            holder.coverImg.setLayoutParams(new LinearLayout.LayoutParams(mCellWidth, mCellWidth));
             return holder;
         }
 
         /**
-         * Bookshelf list item view holder.
+         * Bookshelf grid item view holder.
          */
-        class BookshelfGridItemViewHolder extends ViewHolder {
-            ImageView bookCoverImg;
-            TextView bookTitleTxt;
+        class ItemViewHolder extends ViewHolder {
+            ImageView coverImg;
+            TextView titleTxt;
 
             @Override
             protected void update(Book book) {
-                ImageLoader.getInstance().displayImage(book.getCoverUrl(), bookCoverImg,
+                ImageLoader.getInstance().displayImage(book.getCoverUrl(), coverImg,
                         DisplayImageOptionsProvider.getDisplayImageOptions());
-                bookTitleTxt.setText(book.getTitle());
+                titleTxt.setText(book.getTitle());
             }
         }
     }

@@ -1,8 +1,6 @@
 package me.gujun.mybook.api.entity;
 
-import android.content.ContentValues;
-
-import me.gujun.mybook.db.BookshelfTable;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Book entity.
@@ -15,29 +13,19 @@ public class Book {
     private String title;
     private String author;
     private String tag;
-    private String cover_url;
-    private String content_url;
+    @SerializedName("cover_url")
+    private String coverUrl;
+    @SerializedName("content_url")
+    private String contentUrl;
     private String intro;
 
-    public Book(String title, String author, String tag, String cover_url, String content_url, String intro) {
+    public Book(String title, String author, String tag, String coverUrl, String contentUrl, String intro) {
         this.title = title;
         this.author = author;
         this.tag = tag;
-        this.cover_url = cover_url;
-        this.content_url = content_url;
+        this.coverUrl = coverUrl;
+        this.contentUrl = contentUrl;
         this.intro = intro;
-    }
-
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(BookshelfTable.TITLE, title);
-        values.put(BookshelfTable.AUTHOR, author);
-        values.put(BookshelfTable.TAG, tag);
-        values.put(BookshelfTable.COVER_URL, cover_url);
-        values.put(BookshelfTable.CONTENT_URL, content_url);
-        values.put(BookshelfTable.INTRO, intro);
-
-        return values;
     }
 
     public String getTitle() {
@@ -57,11 +45,11 @@ public class Book {
     }
 
     public String getCoverUrl() {
-        return cover_url;
+        return coverUrl;
     }
 
     public String getContentUrl() {
-        return content_url;
+        return contentUrl;
     }
 
     public String getIntro() {

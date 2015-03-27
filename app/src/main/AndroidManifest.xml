@@ -3,6 +3,8 @@
     package="me.gujun.mybook">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyBookApplication"
@@ -19,10 +21,76 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".ui.OnlineBookshelfActivity"
-            android:label="@string/title_activity_online_bookshelf" />
-    </application>
+            android:name=".ui.ReadingActivity"
+            android:parentActivityName=".ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.BookstoreActivity"
+            android:label="@string/title_activity_online_bookshelf"
+            android:parentActivityName=".ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.BookmarkActivity"
+            android:label="@string/title_activity_bookmark"
+            android:parentActivityName=".ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.FileBrowserActivity"
+            android:label="@string/title_activity_txtbrowser"
+            android:parentActivityName=".ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
 
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".ui.FileSearchActivity" />
+        <activity
+            android:name=".ui.FileSearchResultActivity"
+            android:label="@string/title_activity_file_search"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.gujun.mybook.ui.MainActivity" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <provider
+            android:name=".db.provider.BookshelfProvider"
+            android:authorities="me.gujun.mybook.bookshelf"
+            android:enabled="true"
+            android:exported="false" />
+        <provider
+            android:name=".db.provider.BookmarkProvider"
+            android:authorities="me.gujun.mybook.bookmark"
+            android:enabled="true"
+            android:exported="false" />
+        <provider
+            android:name=".db.provider.BrowseRecordProvider"
+            android:authorities="me.gujun.mybook.browse_record"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
 </manifest>

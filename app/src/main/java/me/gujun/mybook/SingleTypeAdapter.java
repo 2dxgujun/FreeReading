@@ -107,6 +107,13 @@ public abstract class SingleTypeAdapter<E> extends BaseAdapter {
         }
     }
 
+    /**
+     * Clear items.
+     */
+    public void clear() {
+        setItems((E[]) null);
+    }
+
     @Override
     public long getItemId(int position) {
         return items[position].hashCode();

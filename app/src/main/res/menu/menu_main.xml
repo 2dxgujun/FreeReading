@@ -1,3 +1,20 @@
-<menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="me.gujun.mybook.ui.MainActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:mContext=".ui.MainActivity">
+    <item
+        android:id="@+id/action_browser"
+        android:icon="@drawable/ic_action_browser"
+        android:title="@string/action_browser"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_bookstore"
+        android:icon="@drawable/ic_action_bookstore"
+        android:title="@string/action_bookstore"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_bookmark"
+        android:icon="@drawable/ic_action_bookmark"
+        android:title="@string/action_bookmark"
+        app:showAsAction="ifRoom" />
 </menu>

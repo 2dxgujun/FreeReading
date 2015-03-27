@@ -1,6 +1,8 @@
-package me.gujun.mybook;
+package me.gujun.mybook.util;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+
+import me.gujun.mybook.R;
 
 /**
  * Display image options provider.
@@ -12,9 +14,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 public class DisplayImageOptionsProvider {
     private static final DisplayImageOptions DISPLAY_OPTIONS
             = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.mipmap.ic_launcher)
-            .showImageForEmptyUri(R.mipmap.ic_launcher)
-            .showImageOnFail(R.mipmap.ic_launcher)
+            .showImageOnLoading(R.drawable.ic_cover_default)
+            .showImageForEmptyUri(R.drawable.ic_cover_default)
+            .showImageOnFail(R.drawable.ic_cover_default)
             .cacheInMemory(true)
             .cacheOnDisk(true)
             .build();

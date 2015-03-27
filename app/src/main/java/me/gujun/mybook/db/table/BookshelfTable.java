@@ -1,4 +1,4 @@
-package me.gujun.mybook.db;
+package me.gujun.mybook.db.table;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -11,8 +11,9 @@ import android.provider.BaseColumns;
  * @since 2015-3-16 8:56:17
  */
 public interface BookshelfTable extends BaseColumns {
-    Uri CONTENT_URI = Uri.parse("content://" + BookshelfProvider.AUTHORITY + "/bookshelf");
-    Uri CONTENT_ID_URI_BASE = Uri.parse("content://" + BookshelfProvider.AUTHORITY + "/bookshelf/");
+    String AUTHORITY = "me.gujun.mybook.bookshelf";
+    Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/bookshelf");
+    Uri CONTENT_ID_URI_BASE = Uri.parse("content://" + AUTHORITY + "/bookshelf/");
 
     String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.bookshelf";
     String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.bookshelf";
