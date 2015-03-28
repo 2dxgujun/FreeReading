@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_bookstore">Bookstore</string>
     <string name="action_add_bookmark">Add Bookmark</string>
@@ -18,20 +17,21 @@
     <string name="download">Download</string>
     <string name="download_failure">Download failured, please try again</string>
     <string name="download_hint">Confirm to download?</string>
-    <string name="download_in_progress">Downloading...</string>
+    <string name="download_in_progress">Downloading…</string>
     <string name="download_success">Download succeed</string>
     <string name="downloaded">Downloaded</string>
-    <string name="file_not_exists">File doesn't exists</string>
+    <string name="file_not_exists">File doesn\'t exists</string>
     <string name="load_failure">Load failured, please try again</string>
     <string name="no_bookmark">No bookmarks</string>
     <string name="no_history">No browse histories</string>
     <string name="search_canceled">Search canceled</string>
     <string name="search_finished">Search finished</string>
     <string name="search_hint">Typing file name to search</string>
-    <string name="search_in_progress">Searching...</string>
+    <string name="search_in_progress">Searching…</string>
     <string name="title_activity_bookmark">Bookmark</string>
     <string name="title_activity_browse_histroy">History</string>
     <string name="title_activity_file_search">Search</string>
     <string name="title_activity_online_bookshelf">Bookstore</string>
     <string name="title_activity_file_browser">Browser</string>
+    <string name="title_activity_main">@string/app_name</string>
 </resources>

@@ -133,6 +133,7 @@ public class BookstoreActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 refreshBookshelf();
+                mBookstoreRefreshView.setVisibility(View.GONE);
             }
         });
 

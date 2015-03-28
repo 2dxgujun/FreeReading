@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import me.gujun.mybook.R;
 import me.gujun.mybook.db.model.Book;
 import me.gujun.mybook.db.table.BookshelfTable;
 import me.gujun.mybook.ui.view.BookshelfGridView;
+import me.gujun.mybook.util.BookFileManager;
 import me.gujun.mybook.util.BookManager;
 
 /**
@@ -49,7 +51,12 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Book book = mBookshelfGridView.getBook(position);
-                openReadingActivity(book);
+                File bookFile = BookFileManager.get(MainActivity.this).getBookFile(book.getTitle());
+                if (bookFile != null) {
+                    openReadingActivity(book);
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.file_not_exists, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
