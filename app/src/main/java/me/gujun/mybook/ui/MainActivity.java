@@ -1,9 +1,7 @@
 package me.gujun.mybook.ui;
 
-import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -16,8 +14,9 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import me.gujun.mybook.R;
 import me.gujun.mybook.db.model.Book;
@@ -36,7 +35,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     private BookshelfGridView mBookshelfGridView;
     private LinearLayout mBookstoreReminderView;
 
-    private AlertDialog mDeleteDialog;
+    private MaterialDialog mDeleteDialog;
 
     private int mPosition;
 
@@ -71,11 +70,13 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
             }
         });
 
-        mDeleteDialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.delete_book_hint)
-                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+        mDeleteDialog = new MaterialDialog.Builder(this)
+                .title(R.string.delete_book_hint)
+                .positiveText(R.string.delete)
+                .negativeText(R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onPositive(MaterialDialog dialog) {
                         Book book = mBookshelfGridView.getBook(mPosition);
                         try {
                             BookManager.get(getApplicationContext()).deleteBook(book);
@@ -88,12 +89,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
                         getLoaderManager().restartLoader(0, null, MainActivity.this);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
+                .build();
 
         getLoaderManager().initLoader(0, null, this);
     }
@@ -152,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        List<Book> mBookList = new ArrayList<>();
+        ArrayList<Book> mBookList = new ArrayList<>();
         while (data.moveToNext()) {
             mBookList.add(Book.resolve(data));
         }
