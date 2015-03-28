@@ -130,6 +130,14 @@ public class BookPageFactory {
     }
 
     /**
+     * Call this method recycle the memory when you don't need this factory.
+     */
+    public void recycle() {
+        m_mbBuf.clear();
+        System.gc();
+    }
+
+    /**
      * @param strFilePath
      * @param begin       表示书签记录的位置，读取书签时，将begin值给m_mbBufEnd，在读取nextpage，及成功读取到了书签
      *                    记录时将m_mbBufBegin开始位置作为书签记录

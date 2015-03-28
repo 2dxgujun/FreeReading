@@ -208,6 +208,12 @@ public class ReadingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mPageFactory.recycle();
+    }
+
     private void hideToolbar() {
         getSupportActionBar().hide();
     }
