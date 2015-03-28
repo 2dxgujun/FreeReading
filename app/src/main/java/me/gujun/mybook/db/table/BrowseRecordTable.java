@@ -12,8 +12,8 @@ import android.provider.BaseColumns;
  */
 public interface BrowseRecordTable extends BaseColumns {
     String AUTHORITY = "me.gujun.mybook.browse_record";
-    Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/record");
-    Uri CONTENT_ID_URI_BASE = Uri.parse("content://" + AUTHORITY + "/record/");
+    Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/browse_record");
+    Uri CONTENT_ID_URI_BASE = Uri.parse("content://" + AUTHORITY + "/browse_record/");
 
     String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.browse_record";
     String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.browse_record";

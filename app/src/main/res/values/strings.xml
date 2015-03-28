@@ -4,12 +4,14 @@
     <string name="title_activity_online_bookshelf">网络书城</string>
     <string name="title_activity_bookmark">书签</string>
     <string name="title_activity_txtbrowser">文件浏览</string>
-    <string name="title_activity_file_search">FileSearchActivity</string>
+    <string name="title_activity_file_search">文件搜索</string>
+    <string name="title_activity_browse_histroy">浏览历史</string>
     <string name="action_browser">浏览</string>
     <string name="action_bookstore">网络书城</string>
     <string name="action_bookmark">书签</string>
     <string name="action_add_bookmark">添加书签</string>
     <string name="action_search">搜索</string>
+    <string name="action_history">历史记录</string>
     <string name="download">下载</string>
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
@@ -21,12 +23,15 @@
     <string name="download_failure">下载失败，请重试</string>
     <string name="load_failure">加载失败，请重试</string>
     <string name="no_bookmark">没有书签哦</string>
-    <string name="delete_book_hint">要删除这本书吗？</string>
-    <string name="delete_bookmark_hint">要删除这个书签吗？</string>
+    <string name="no_history">没有历史记录哦</string>
+    <string name="delete_book_hint">确认删除这本书吗？</string>
+    <string name="delete_bookmark_hint">确认删除这个书签吗？</string>
+    <string name="delete_browse_history_hint">确认删除这条记录吗？</string>
     <string name="delete_success">删除成功</string>
     <string name="delete_failure">删除失败，请重试</string>
     <string name="add_bookmark_success">添加书签成功</string>
     <string name="search_hint">输入文件名搜索</string>
     <string name="search_finished">搜索结束</string>
     <string name="search_canceled">已取消搜索</string>
+    <string name="file_not_exists">文件不存在</string>
 </resources>

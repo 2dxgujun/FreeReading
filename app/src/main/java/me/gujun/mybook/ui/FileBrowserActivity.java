@@ -27,6 +27,9 @@ import java.util.List;
 
 import me.gujun.mybook.R;
 import me.gujun.mybook.SingleTypeAdapter;
+import me.gujun.mybook.db.BrowseRecordManager;
+import me.gujun.mybook.db.model.BrowseRecord;
+import me.gujun.mybook.util.TimeUtils;
 
 public class FileBrowserActivity extends ActionBarActivity {
     private static final String TAG = FileBrowserActivity.class.getSimpleName();
@@ -77,6 +80,8 @@ public class FileBrowserActivity extends ActionBarActivity {
                     browseTo(file);
                 } else {
                     openReadingActivity(file);
+                    BrowseRecord record = new BrowseRecord(file, TimeUtils.getCurrentTimeFormated());
+                    BrowseRecordManager.get(FileBrowserActivity.this).add(record);
                 }
             }
         });
@@ -195,8 +200,16 @@ public class FileBrowserActivity extends ActionBarActivity {
                 collapseSearchView();
                 return true;
             }
+        } else if (id == R.id.action_history) {
+            openBrowseHistroyActivity();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openBrowseHistroyActivity() {
+        Intent intent = new Intent(FileBrowserActivity.this, BrowseHistroyActivity.class);
+        startActivity(intent);
     }
 
     @Override
