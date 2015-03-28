@@ -1,6 +1,6 @@
 # Free Reading
 
-This a project of Reading which uses Android Studio + Gradle, and follows Material Design.
+This is a android txt story reader which uses Android Studio + Gradle, and follows Material Design.
 
 # About
 
