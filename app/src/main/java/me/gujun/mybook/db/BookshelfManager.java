@@ -77,6 +77,16 @@ public class BookshelfManager {
         }
     }
 
+    public Book getBookByTitle(String title) {
+        Cursor cursor = mResolver.query(BookshelfTable.CONTENT_URI,
+                null, BookshelfTable.TITLE + "=?", new String[]{title}, null);
+        if (cursor.moveToNext()) {
+            return Book.resolve(cursor);
+        } else {
+            return null;
+        }
+    }
+
     public int deleteById(Book book) {
         return mResolver.delete(BookshelfTable.CONTENT_ID_URI_BASE, BookshelfTable._ID + "=?",
                 new String[]{Integer.toString(book.getId())});

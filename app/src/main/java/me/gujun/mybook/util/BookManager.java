@@ -1,5 +1,6 @@
 package me.gujun.mybook.util;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 
@@ -80,23 +81,27 @@ public class BookManager {
     }
 
     /**
+     * Get book by title.
+     *
+     * @param title The book title.
+     * @return Book item.
+     */
+    public Book getBookByTitle(String title) {
+        return mBookshelfManager.getBookByTitle(title);
+    }
+
+    /**
      * Add a new book.
      *
      * @param book       {@link Book} instance.
      * @param bookBuffer Binary book content.
-     * @return true if add success, false otherwise.
+     * @return The id of the book.
      */
-    public boolean addBook(Book book, byte[] bookBuffer) {
+    public int addBook(Book book, byte[] bookBuffer) {
         Uri uri = mBookshelfManager.add(book);
-        if (uri != null) {
-            try {
-                mBookFileManager.saveBookBinary(book.getTitle(), bookBuffer);
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
-        }
-        return false;
+        int id = (int) ContentUris.parseId(uri);
+        mBookFileManager.saveBookBinary(book.getTitle(), bookBuffer);
+        return id;
     }
 
     /**

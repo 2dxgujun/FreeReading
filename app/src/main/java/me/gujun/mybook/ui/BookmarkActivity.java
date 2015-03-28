@@ -1,11 +1,8 @@
 package me.gujun.mybook.ui;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -19,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -33,12 +31,14 @@ import me.gujun.mybook.db.table.BookmarkTable;
 import me.gujun.mybook.util.BookManager;
 import me.gujun.mybook.util.DisplayImageOptionsProvider;
 
-public class BookmarkActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class BookmarkActivity extends ActionBarActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
     private ListView mBookmarkListView;
     private LinearLayout mNoBookmarkReminder;
     private BookmarkListAdapter mAdapter;
 
-    private Dialog mDeleteDialog;
+    private MaterialDialog mDeleteDialog;
+
     private int mPosition;
 
     @Override
@@ -49,7 +49,7 @@ public class BookmarkActivity extends ActionBarActivity implements LoaderManager
         mNoBookmarkReminder = (LinearLayout) findViewById(R.id.no_bookmark_reminder);
 
         mAdapter = new BookmarkListAdapter(this);
-        mBookmarkListView = (ListView) findViewById(R.id.list_bookmark);
+        mBookmarkListView = (ListView) findViewById(R.id.bookmark_list);
         mBookmarkListView.setAdapter(mAdapter);
         mBookmarkListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,11 +69,13 @@ public class BookmarkActivity extends ActionBarActivity implements LoaderManager
             }
         });
 
-        mDeleteDialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.delete_bookmark_hint)
-                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+        mDeleteDialog = new MaterialDialog.Builder(this)
+                .title(R.string.delete_bookmark_hint)
+                .positiveText(R.string.delete)
+                .negativeText(R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onPositive(MaterialDialog dialog) {
                         Bookmark bookmark = mAdapter.getItem(mPosition);
                         try {
                             BookManager.get(getApplicationContext()).deleteBookmark(bookmark);
@@ -86,12 +88,7 @@ public class BookmarkActivity extends ActionBarActivity implements LoaderManager
                         getLoaderManager().restartLoader(0, null, BookmarkActivity.this);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
+                .build();
 
         getLoaderManager().initLoader(0, null, this);
     }

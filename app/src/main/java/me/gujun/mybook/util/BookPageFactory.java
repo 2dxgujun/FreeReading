@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import me.gujun.mybook.db.model.Book;
 import me.gujun.mybook.db.model.Bookmark;
+import me.gujun.mybook.db.model.BrowseRecord;
 
 /**
  * <Please describe the usage of this class>
@@ -166,6 +167,11 @@ public class BookPageFactory {
 
     public void openBook(File bookFile) throws IOException {
         openBook(bookFile, 0);
+    }
+
+    public void openBook(BrowseRecord record) throws IOException {
+        File file = new File(record.getFilePath());
+        openBook(file, 0);
     }
 
     public void openBook(Context context, Book book, Bookmark bookmark) throws IOException {

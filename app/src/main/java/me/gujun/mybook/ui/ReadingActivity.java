@@ -24,6 +24,7 @@ import java.io.IOException;
 import me.gujun.mybook.R;
 import me.gujun.mybook.db.model.Book;
 import me.gujun.mybook.db.model.Bookmark;
+import me.gujun.mybook.db.model.BrowseRecord;
 import me.gujun.mybook.ui.view.PageWidget;
 import me.gujun.mybook.util.BookManager;
 import me.gujun.mybook.util.BookPageFactory;
@@ -33,10 +34,12 @@ public class ReadingActivity extends ActionBarActivity {
     private static final String EXTRA_BOOK = "EXTRA_BOOK";
     private static final String EXTRA_BOOKMARK = "EXTRA_BOOKMARK";
     private static final String EXTRA_FILE = "EXTRA_FILE";
+    private static final String EXTRA_BROWSE_RECORD = "EXTRA_BROWSE_RECORD";
 
     private Book mBook;
     private Bookmark mBookmark;
     private File mFile;
+    private BrowseRecord mBrowseRecord;
 
     private Bitmap mCurrPageBitmap;
     private Bitmap mNextPageBitmap;
@@ -66,6 +69,12 @@ public class ReadingActivity extends ActionBarActivity {
         return intent;
     }
 
+    public static Intent createIntent(BrowseRecord record) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_BROWSE_RECORD, record);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +85,7 @@ public class ReadingActivity extends ActionBarActivity {
         mBook = getIntent().getParcelableExtra(EXTRA_BOOK);
         mBookmark = getIntent().getParcelableExtra(EXTRA_BOOKMARK);
         mFile = (File) getIntent().getSerializableExtra(EXTRA_FILE);
+        mBrowseRecord = getIntent().getParcelableExtra(EXTRA_BROWSE_RECORD);
         if (mBook != null) {
             if (mBookmark == null) {
                 mBookmark = new Bookmark();
@@ -83,6 +93,9 @@ public class ReadingActivity extends ActionBarActivity {
             setTitle(mBook.getTitle() + " - " + mBook.getAuthor());
         } else if (mFile != null) {
             setTitle(mFile.getName());
+        } else if (mBrowseRecord != null) {
+            setTitle(mBrowseRecord.getFileName());
+            getSupportActionBar().setSubtitle(mBrowseRecord.getFilePath());
         }
 
         WindowManager manage = getWindowManager();
@@ -158,8 +171,10 @@ public class ReadingActivity extends ActionBarActivity {
         try {
             if (mBook != null) {
                 mPageFactory.openBook(this, mBook, mBookmark);
-            } else {
+            } else if (mFile != null){
                 mPageFactory.openBook(mFile);
+            } else if (mBrowseRecord != null) {
+                mPageFactory.openBook(mBrowseRecord);
             }
             mPageFactory.onDraw(mCurrPageCanvas);
         } catch (IOException e) {

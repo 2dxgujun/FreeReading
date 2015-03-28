@@ -58,7 +58,11 @@ public class BookstoreActivity extends ActionBarActivity {
                     public void success(BookList bookAPIList, Response response) {
                         List<Book> bookList = new ArrayList<>();
                         for (me.gujun.mybook.api.entity.Book book : bookAPIList.getBookList()) {
-                            bookList.add(new Book(book));
+                            Book newBook = BookManager.get(BookstoreActivity.this).getBookByTitle(book.getTitle());
+                            if (newBook == null) {
+                                newBook = new Book(book);
+                            }
+                            bookList.add(newBook);
                         }
                         mBookshelfListView.setBookList(bookList);
                         mBookstoreRefreshView.setVisibility(View.GONE);
@@ -92,7 +96,10 @@ public class BookstoreActivity extends ActionBarActivity {
 
                     @Override
                     public void onResponse(com.squareup.okhttp.Response response) throws IOException {
-                        BookManager.get(getApplicationContext()).addBook(book, response.body().bytes());
+                        int id = BookManager.get(getApplicationContext()).addBook(book, response.body().bytes());
+                        // Must set the book id, needed when add a bookmark
+                        book.setId(id);
+
                         mBookshelfListView.post(new Runnable() {
                             @Override
                             public void run() {
@@ -118,6 +125,7 @@ public class BookstoreActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookstore);
+
         mBookshelfListView = (BookshelfListView) findViewById(R.id.bookshelf);
 
         mBookstoreRefreshView = (LinearLayout) findViewById(R.id.bookstore_refresh);
