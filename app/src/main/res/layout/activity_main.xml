@@ -13,12 +13,12 @@
             android:id="@+id/bookshelf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="16dp"
             android:horizontalSpacing="10dp"
             android:numColumns="3"
+            android:paddingBottom="16dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="16dp"
             android:verticalSpacing="25dp" />
     </ScrollView>
 
