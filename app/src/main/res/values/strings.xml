@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">开心小说</string>
+    <string name="app_name">随读</string>
     <string name="title_activity_main">@string/app_name</string>
     <string name="title_activity_online_bookshelf">网络书城</string>
     <string name="title_activity_bookmark">书签</string>
-    <string name="title_activity_txtbrowser">文件浏览</string>
+    <string name="title_activity_file_browser">文件浏览</string>
     <string name="title_activity_file_search">文件搜索</string>
     <string name="title_activity_browse_histroy">浏览历史</string>
     <string name="action_browser">浏览</string>

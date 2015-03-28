@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_bookstore">Bookstore</string>
+    <string name="action_add_bookmark">Add Bookmark</string>
+    <string name="action_bookmark">Bookmarks</string>
+    <string name="action_browser">Browser</string>
+    <string name="action_history">History</string>
+    <string name="action_search">Search</string>
+    <string name="add_bookmark_success">Add Succeed</string>
+    <string name="app_name">Free Reading</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="delete_book_hint">Confirm to delete this book?</string>
+    <string name="delete_bookmark_hint">Confirm to delete this bookmark?</string>
+    <string name="delete_browse_history_hint">Confirm to delete this record?</string>
+    <string name="delete_failure">Delete failured, please try again</string>
+    <string name="delete_success">Delete succeed</string>
+    <string name="download">Download</string>
+    <string name="download_failure">Download failured, please try again</string>
+    <string name="download_hint">Confirm to download?</string>
+    <string name="download_in_progress">Downloading...</string>
+    <string name="download_success">Download succeed</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="file_not_exists">File doesn't exists</string>
+    <string name="load_failure">Load failured, please try again</string>
+    <string name="no_bookmark">No bookmarks</string>
+    <string name="no_history">No browse histories</string>
+    <string name="search_canceled">Search canceled</string>
+    <string name="search_finished">Search finished</string>
+    <string name="search_hint">Typing file name to search</string>
+    <string name="search_in_progress">Searching...</string>
+    <string name="title_activity_bookmark">Bookmark</string>
+    <string name="title_activity_browse_histroy">History</string>
+    <string name="title_activity_file_search">Search</string>
+    <string name="title_activity_online_bookshelf">Bookstore</string>
+    <string name="title_activity_file_browser">Browser</string>
+</resources>

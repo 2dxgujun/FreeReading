@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".ui.FileBrowserActivity"
-            android:label="@string/title_activity_txtbrowser"
+            android:label="@string/title_activity_file_browser"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
